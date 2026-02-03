@@ -22,6 +22,7 @@ export function Header({
   user,
   onLoginClick,
   onLogout,
+  onSwitchToAdmin,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -103,6 +104,7 @@ export function Header({
                   user={user}
                   onLoginClick={onLoginClick}
                   onLogout={onLogout}
+                  onSwitchToAdmin={onSwitchToAdmin}
                 />
               )}
 

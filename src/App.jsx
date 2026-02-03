@@ -7,8 +7,8 @@ import { Footer } from "./components/Footer";
 import { CartSidebar } from "./components/CartSidebar";
 import { ProductDetail } from "./components/ProductDetail";
 import { AuthModal } from "./components/AuthModal";
-import { AdminDashboard } from "./components/AdminDashboard";
-import { StaffDashboard } from "./components/StaffDashboard";
+import { AdminPage } from "./pages/AdminPage";
+import { StaffPage } from "./pages/StaffPage";
 import { AdminLoginPrompt } from "./components/AdminLoginPrompt";
 import { CheckoutModal } from "./components/CheckoutModal";
 import { OrderHistory } from "./components/OrderHistory";
@@ -21,7 +21,7 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const [adminDashboardOpen, setAdminDashboardOpen] = useState(false);
+  const [viewMode, setViewMode] = useState("shop"); // "shop" or "admin"
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [orderHistoryOpen, setOrderHistoryOpen] = useState(false);
   const [showTestAccounts, setShowTestAccounts] = useState(false);
@@ -50,41 +50,47 @@ export default function App() {
     }
     return getAllProducts();
   });
+  const [users, setUsers] = useState(() => {
+    // Initialize users from localStorage
+    const savedUsers = localStorage.getItem("users");
+    if (savedUsers) {
+      try {
+        return JSON.parse(savedUsers);
+      } catch (e) {
+        console.error("Failed to parse users data");
+      }
+    }
+    return [];
+  });
 
   // Load user from localStorage on mount only
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        const parsedUser = JSON.parse(savedUser);
+        setUser(parsedUser);
+        // Auto switch to admin view if user is admin/staff
+        if (parsedUser.role === "admin" || parsedUser.role === "staff") {
+          setViewMode("admin");
+        }
       } catch (e) {
         console.error("Failed to parse user data");
       }
     }
   }, []);
 
-  // Setup admin dashboard event listener
+  // Remove admin dashboard event listener (not needed anymore)
   useEffect(() => {
-    const handleOpenAdminDashboard = () => {
-      if (user && (user.role === "admin" || user.role === "staff")) {
-        setAdminDashboardOpen(true);
-      }
-    };
-
     const handleOpenOrderHistory = () => {
       if (user) {
         setOrderHistoryOpen(true);
       }
     };
 
-    window.addEventListener("openAdminDashboard", handleOpenAdminDashboard);
     window.addEventListener("openOrderHistory", handleOpenOrderHistory);
 
     return () => {
-      window.removeEventListener(
-        "openAdminDashboard",
-        handleOpenAdminDashboard,
-      );
       window.removeEventListener("openOrderHistory", handleOpenOrderHistory);
     };
   }, [user]);
@@ -98,6 +104,11 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("orders", JSON.stringify(orders));
   }, [orders]);
+
+  // Save users to localStorage when they change
+  useEffect(() => {
+    localStorage.setItem("users", JSON.stringify(users));
+  }, [users]);
 
   const addToCart = (product) => {
     setCart((prevCart) => {
@@ -132,10 +143,17 @@ export default function App() {
 
   const handleLogin = (userInfo) => {
     setUser(userInfo);
+    // Auto switch to admin view if admin/staff logs in
+    if (userInfo.role === "admin" || userInfo.role === "staff") {
+      setViewMode("admin");
+    } else {
+      setViewMode("shop");
+    }
   };
 
   const handleLogout = () => {
     setUser(null);
+    setViewMode("shop");
     localStorage.removeItem("user");
   };
 
@@ -145,6 +163,10 @@ export default function App() {
 
   const handleUpdateOrders = (updatedOrders) => {
     setOrders(updatedOrders);
+  };
+
+  const handleUpdateUsers = (updatedUsers) => {
+    setUsers(updatedUsers);
   };
 
   const handleCheckout = () => {
@@ -167,6 +189,39 @@ export default function App() {
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+  // If admin/staff is logged in, show admin dashboard as main page
+  if (
+    viewMode === "admin" &&
+    user &&
+    (user.role === "admin" || user.role === "staff")
+  ) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        {user.role === "admin" ? (
+          <AdminPage
+            user={user}
+            products={products}
+            orders={orders}
+            users={users}
+            onClose={() => setViewMode("shop")}
+            onUpdateProducts={handleUpdateProducts}
+            onUpdateOrders={handleUpdateOrders}
+            onUpdateUsers={handleUpdateUsers}
+          />
+        ) : (
+          <StaffPage
+            user={user}
+            products={products}
+            orders={orders}
+            onClose={() => setViewMode("shop")}
+            onUpdateOrders={handleUpdateOrders}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // Customer view (shop)
   return (
     <div className="min-h-screen bg-gray-50">
       <Header
@@ -175,6 +230,7 @@ export default function App() {
         user={user}
         onLoginClick={() => setAuthModalOpen(true)}
         onLogout={handleLogout}
+        onSwitchToAdmin={() => setViewMode("admin")}
       />
 
       <main>
@@ -255,31 +311,6 @@ export default function App() {
         onClose={() => setOrderHistoryOpen(false)}
         orders={userOrders}
       />
-
-      {user && (user.role === "admin" || user.role === "staff") && (
-        <>
-          {user.role === "admin" ? (
-            <AdminDashboard
-              isOpen={adminDashboardOpen}
-              onClose={() => setAdminDashboardOpen(false)}
-              user={user}
-              products={products}
-              onUpdateProducts={handleUpdateProducts}
-              orders={orders}
-              onUpdateOrders={handleUpdateOrders}
-            />
-          ) : (
-            <StaffDashboard
-              isOpen={adminDashboardOpen}
-              onClose={() => setAdminDashboardOpen(false)}
-              user={user}
-              products={products}
-              orders={orders}
-              onUpdateOrders={handleUpdateOrders}
-            />
-          )}
-        </>
-      )}
 
       {/* Test Accounts Button */}
       <button
