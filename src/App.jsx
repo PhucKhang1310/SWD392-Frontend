@@ -9,6 +9,7 @@ import { ProductDetail } from "./components/ProductDetail";
 import { AuthModal } from "./components/AuthModal";
 import { AdminPage } from "./pages/AdminPage";
 import { StaffPage } from "./pages/StaffPage";
+import { ProfilePage } from "./pages/ProfilePage";
 import { AdminLoginPrompt } from "./components/AdminLoginPrompt";
 import { CheckoutModal } from "./components/CheckoutModal";
 import { OrderHistory } from "./components/OrderHistory";
@@ -22,6 +23,7 @@ export default function App() {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [viewMode, setViewMode] = useState("shop"); // "shop" or "admin"
+  const [profileOpen, setProfileOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [orderHistoryOpen, setOrderHistoryOpen] = useState(false);
   const [showTestAccounts, setShowTestAccounts] = useState(false);
@@ -231,6 +233,7 @@ export default function App() {
         onLoginClick={() => setAuthModalOpen(true)}
         onLogout={handleLogout}
         onSwitchToAdmin={() => setViewMode("admin")}
+        onViewProfile={() => setProfileOpen(true)}
       />
 
       <main>
@@ -311,6 +314,18 @@ export default function App() {
         onClose={() => setOrderHistoryOpen(false)}
         orders={userOrders}
       />
+
+      {/* Profile Modal */}
+      {profileOpen && (
+        <ProfilePage
+          user={user}
+          onUpdateUser={(updatedUser) => {
+            setUser(updatedUser);
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+          }}
+          onClose={() => setProfileOpen(false)}
+        />
+      )}
 
       {/* Test Accounts Button */}
       <button

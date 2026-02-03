@@ -9,7 +9,13 @@ import {
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
-export function UserMenu({ user, onLoginClick, onLogout, onSwitchToAdmin }) {
+export function UserMenu({
+  user,
+  onLoginClick,
+  onLogout,
+  onSwitchToAdmin,
+  onViewProfile,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -103,13 +109,18 @@ export function UserMenu({ user, onLoginClick, onLogout, onSwitchToAdmin }) {
               </button>
             )}
 
-            <a
-              href="#"
-              className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors"
+            <button
+              onClick={() => {
+                if (onViewProfile) {
+                  onViewProfile();
+                }
+                setIsOpen(false);
+              }}
+              className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors text-left"
             >
               <User className="w-5 h-5 text-gray-600" />
               <span>Thông tin tài khoản</span>
-            </a>
+            </button>
 
             <button
               onClick={openOrderHistory}
