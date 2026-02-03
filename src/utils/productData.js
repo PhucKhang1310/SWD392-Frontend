@@ -1,0 +1,358 @@
+// Mock data for products
+export const getAllProducts = () => {
+  return [
+    // Flash Sale & Laptop products
+    {
+      id: "laptop-1",
+      name: 'MacBook Air M2 13" 2024 - 8GB/256GB',
+      price: 26990000,
+      originalPrice: 32990000,
+      image:
+        "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=300&fit=crop",
+      category: "laptop",
+      rating: 5,
+      reviews: 342,
+      discount: 18,
+      stock: 50,
+      description: "MacBook Air với chip M2 mạnh mẽ, thiết kế siêu mỏng nhẹ",
+    },
+    {
+      id: "laptop-2",
+      name: "Dell XPS 13 Plus - i7 Gen 13/16GB/512GB",
+      price: 35990000,
+      originalPrice: 42990000,
+      image:
+        "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&h=300&fit=crop",
+      category: "laptop",
+      rating: 4.8,
+      reviews: 218,
+      discount: 16,
+      stock: 35,
+      description: "Dell XPS 13 Plus thiết kế cao cấp, hiệu năng mạnh mẽ",
+    },
+    {
+      id: "laptop-3",
+      name: "Asus ROG Zephyrus G14 - Ryzen 9/32GB/1TB RTX 4060",
+      price: 42990000,
+      originalPrice: 52990000,
+      image:
+        "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&h=300&fit=crop",
+      category: "laptop",
+      rating: 4.9,
+      reviews: 156,
+      discount: 19,
+      stock: 20,
+      description: "Laptop gaming cao cấp với RTX 4060",
+    },
+    {
+      id: "laptop-4",
+      name: "Lenovo ThinkPad X1 Carbon Gen 11 - i7/16GB/512GB",
+      price: 38990000,
+      originalPrice: 45990000,
+      image:
+        "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400&h=300&fit=crop",
+      category: "laptop",
+      rating: 4.7,
+      reviews: 189,
+      discount: 15,
+      stock: 30,
+      description: "ThinkPad doanh nhân cao cấp, bền bỉ",
+    },
+    {
+      id: "laptop-5",
+      name: 'HP Spectre x360 14" 2-in-1 - i7/16GB/1TB',
+      price: 41990000,
+      originalPrice: 48990000,
+      image:
+        "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop",
+      category: "laptop",
+      rating: 4.6,
+      reviews: 134,
+      discount: 14,
+      stock: 25,
+      description: "Laptop 2-in-1 cao cấp, xoay gập 360 độ",
+    },
+    {
+      id: "laptop-6",
+      name: "MSI Stealth 15M - i7/16GB/512GB RTX 4050",
+      price: 32990000,
+      originalPrice: 38990000,
+      image:
+        "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=400&h=300&fit=crop",
+      category: "laptop",
+      rating: 4.5,
+      reviews: 267,
+      discount: 15,
+      stock: 40,
+      description: "Gaming laptop mỏng nhẹ với RTX 4050",
+    },
+
+    // Phone products
+    {
+      id: "phone-1",
+      name: "iPhone 15 Pro 128GB - Titan Tự Nhiên",
+      price: 25990000,
+      originalPrice: 28990000,
+      image:
+        "https://images.unsplash.com/photo-1696446702780-72b0c90f5f55?w=400&h=300&fit=crop",
+      category: "phone",
+      rating: 5,
+      reviews: 523,
+      discount: 10,
+      stock: 100,
+      description: "iPhone 15 Pro với chip A17 Pro mạnh mẽ",
+    },
+    {
+      id: "phone-2",
+      name: "Samsung Galaxy S24 Ultra 256GB",
+      price: 27990000,
+      originalPrice: 31990000,
+      image:
+        "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400&h=300&fit=crop",
+      category: "phone",
+      rating: 4.9,
+      reviews: 412,
+      discount: 13,
+      stock: 80,
+      description: "Galaxy S24 Ultra với bút S Pen tích hợp",
+    },
+    {
+      id: "phone-3",
+      name: "Xiaomi 14 Ultra 16GB/512GB",
+      price: 24990000,
+      originalPrice: 27990000,
+      image:
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop",
+      category: "phone",
+      rating: 4.8,
+      reviews: 298,
+      discount: 11,
+      stock: 60,
+      description: "Xiaomi 14 Ultra với camera Leica đỉnh cao",
+    },
+    {
+      id: "phone-4",
+      name: "Google Pixel 8 Pro 256GB",
+      price: 21990000,
+      originalPrice: 24990000,
+      image:
+        "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=300&fit=crop",
+      category: "phone",
+      rating: 4.7,
+      reviews: 187,
+      discount: 12,
+      stock: 45,
+      description: "Pixel 8 Pro với AI photography tiên tiến",
+    },
+    {
+      id: "phone-5",
+      name: "OPPO Find X7 Pro 16GB/512GB",
+      price: 22990000,
+      originalPrice: 25990000,
+      image:
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop",
+      category: "phone",
+      rating: 4.6,
+      reviews: 234,
+      discount: 12,
+      stock: 55,
+      description: "OPPO Find X7 Pro camera Hasselblad",
+    },
+    {
+      id: "phone-6",
+      name: "OnePlus 12 16GB/512GB",
+      price: 19990000,
+      originalPrice: 22990000,
+      image:
+        "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&h=300&fit=crop",
+      category: "phone",
+      rating: 4.7,
+      reviews: 312,
+      discount: 13,
+      stock: 70,
+      description: "OnePlus 12 với Snapdragon 8 Gen 3",
+    },
+
+    // Audio products
+    {
+      id: "audio-1",
+      name: "AirPods Pro 2 USB-C",
+      price: 5990000,
+      originalPrice: 6990000,
+      image:
+        "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400&h=300&fit=crop",
+      category: "audio",
+      rating: 5,
+      reviews: 678,
+      discount: 14,
+      stock: 150,
+      description: "AirPods Pro 2 với chống ồn chủ động",
+    },
+    {
+      id: "audio-2",
+      name: "Sony WH-1000XM5 - Chống ồn chủ động",
+      price: 7990000,
+      originalPrice: 9990000,
+      image:
+        "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=300&fit=crop",
+      category: "audio",
+      rating: 4.9,
+      reviews: 445,
+      discount: 20,
+      stock: 80,
+      description: "Sony WH-1000XM5 chống ồn đỉnh cao",
+    },
+    {
+      id: "audio-3",
+      name: "Bose QuietComfort Ultra Earbuds",
+      price: 6490000,
+      originalPrice: 7990000,
+      image:
+        "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop",
+      category: "audio",
+      rating: 4.8,
+      reviews: 289,
+      discount: 19,
+      stock: 65,
+      description: "Bose QC Ultra với âm thanh immersive",
+    },
+    {
+      id: "audio-4",
+      name: "Samsung Galaxy Buds 2 Pro",
+      price: 3990000,
+      originalPrice: 4990000,
+      image:
+        "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400&h=300&fit=crop",
+      category: "audio",
+      rating: 4.6,
+      reviews: 512,
+      discount: 20,
+      stock: 120,
+      description: "Galaxy Buds 2 Pro âm thanh 360 độ",
+    },
+    {
+      id: "audio-5",
+      name: "JBL Tune 770NC - Wireless Over-Ear",
+      price: 2490000,
+      originalPrice: 3490000,
+      image:
+        "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=300&fit=crop",
+      category: "audio",
+      rating: 4.5,
+      reviews: 389,
+      discount: 29,
+      stock: 95,
+      description: "JBL Tune 770NC chống ồn, pin 70 giờ",
+    },
+    {
+      id: "audio-6",
+      name: "Sennheiser Momentum 4 Wireless",
+      price: 8990000,
+      originalPrice: 10990000,
+      image:
+        "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&h=300&fit=crop",
+      category: "audio",
+      rating: 4.9,
+      reviews: 198,
+      discount: 18,
+      stock: 45,
+      description: "Sennheiser Momentum 4 âm thanh audiophile",
+    },
+
+    // Accessories products
+    {
+      id: "acc-1",
+      name: "Logitech MX Master 3S Wireless Mouse",
+      price: 2290000,
+      originalPrice: 2790000,
+      image:
+        "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop",
+      category: "accessories",
+      rating: 4.9,
+      reviews: 567,
+      discount: 18,
+      stock: 200,
+      description: "Chuột không dây cao cấp cho năng suất",
+    },
+    {
+      id: "acc-2",
+      name: "Keychron K8 Pro Mechanical Keyboard",
+      price: 3490000,
+      originalPrice: 4290000,
+      image:
+        "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=300&fit=crop",
+      category: "accessories",
+      rating: 4.8,
+      reviews: 342,
+      discount: 19,
+      stock: 85,
+      description: "Bàn phím cơ không dây hot-swap",
+    },
+    {
+      id: "acc-3",
+      name: "Apple Watch Series 9 GPS 45mm",
+      price: 10990000,
+      originalPrice: 12990000,
+      image:
+        "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=400&h=300&fit=crop",
+      category: "accessories",
+      rating: 5,
+      reviews: 723,
+      discount: 15,
+      stock: 120,
+      description: "Apple Watch S9 với chip S9 mạnh mẽ",
+    },
+    {
+      id: "acc-4",
+      name: "Anker PowerCore 20000mAh PD",
+      price: 1290000,
+      originalPrice: 1590000,
+      image:
+        "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=300&fit=crop",
+      category: "accessories",
+      rating: 4.7,
+      reviews: 891,
+      discount: 19,
+      stock: 300,
+      description: "Sạc dự phòng 20000mAh sạc nhanh PD",
+    },
+    {
+      id: "acc-5",
+      name: "Razer DeathAdder V3 Pro Gaming Mouse",
+      price: 3790000,
+      originalPrice: 4490000,
+      image:
+        "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=300&fit=crop",
+      category: "accessories",
+      rating: 4.9,
+      reviews: 456,
+      discount: 16,
+      stock: 75,
+      description: "Chuột gaming không dây cao cấp",
+    },
+    {
+      id: "acc-6",
+      name: "Samsung T7 Shield 1TB Portable SSD",
+      price: 3490000,
+      originalPrice: 3990000,
+      image:
+        "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=300&fit=crop",
+      category: "accessories",
+      rating: 4.8,
+      reviews: 234,
+      discount: 13,
+      stock: 150,
+      description: "SSD di động chống sốc, chống nước",
+    },
+  ];
+};
+
+export const getFlashSaleProducts = () => {
+  const allProducts = getAllProducts();
+  return allProducts.slice(0, 10); // Get first 10 products for flash sale
+};
+
+export const getProductsByCategory = (category) => {
+  const allProducts = getAllProducts();
+  return allProducts.filter((product) => product.category === category);
+};
