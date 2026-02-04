@@ -106,8 +106,10 @@ export function ProductManagement({ products, onUpdateProducts }) {
               >
                 <option value="laptop">Laptop</option>
                 <option value="phone">Phone</option>
+                <option value="tablet">Tablet</option>
                 <option value="audio">Audio</option>
                 <option value="accessories">Accessories</option>
+                <option value="monitor">Monitor</option>
               </select>
             </div>
           </div>
@@ -216,8 +218,10 @@ export function ProductManagement({ products, onUpdateProducts }) {
               >
                 <option value="laptop">Laptop</option>
                 <option value="phone">Phone</option>
+                <option value="tablet">Tablet</option>
                 <option value="audio">Audio</option>
                 <option value="accessories">Accessories</option>
+                <option value="monitor">Monitor</option>
               </select>
             </div>
             <div>
@@ -355,8 +359,10 @@ export function ProductManagement({ products, onUpdateProducts }) {
           <option value="all">Tất cả danh mục</option>
           <option value="laptop">Laptop</option>
           <option value="phone">Phone</option>
+          <option value="tablet">Tablet</option>
           <option value="audio">Audio</option>
           <option value="accessories">Accessories</option>
+          <option value="monitor">Monitor</option>
         </select>
       </div>
 

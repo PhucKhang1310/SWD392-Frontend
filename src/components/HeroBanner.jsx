@@ -253,7 +253,7 @@ export function HeroBanner() {
         ))}
       </Carousel>
 
-      <style jsx>{`
+      <style>{`
         .hero-carousel .carousel .control-dots {
           bottom: 20px !important;
         }

@@ -16,13 +16,41 @@ import {
 
 export function Footer() {
   const categories = [
-    { name: "Laptop", icon: Laptop },
-    { name: "Điện thoại", icon: Smartphone },
-    { name: "Tablet", icon: Tablet },
-    { name: "Âm thanh", icon: Speaker },
-    { name: "Phụ kiện", icon: Cable },
-    { name: "Màn hình", icon: Monitor },
+    { id: "laptop", name: "Laptop", icon: Laptop },
+    { id: "phone", name: "Điện thoại", icon: Smartphone },
+    { id: "tablet", name: "Tablet", icon: Tablet },
+    { id: "audio", name: "Âm thanh", icon: Speaker },
+    { id: "accessories", name: "Phụ kiện", icon: Cable },
+    { id: "monitor", name: "Màn hình", icon: Monitor },
   ];
+
+  const scrollToCategory = (id, e) => {
+    if (e) e.preventDefault();
+    try {
+      const el = document.getElementById(id);
+      if (el) {
+        const headerEl = document.querySelector("header");
+        const headerHeight = headerEl
+          ? headerEl.getBoundingClientRect().height
+          : 0;
+        const top =
+          el.getBoundingClientRect().top +
+          window.pageYOffset -
+          headerHeight -
+          12;
+        window.scrollTo({ top, behavior: "smooth" });
+        history.replaceState(null, "", `#${id}`);
+        return;
+      }
+      if (window.location.pathname !== "/products") {
+        window.location.href = `/products#${id}`;
+      } else {
+        window.location.hash = `#${id}`;
+      }
+    } catch (err) {
+      // ignore
+    }
+  };
 
   const supportLinks = [
     "Chính sách bảo hành",
@@ -61,10 +89,11 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="text-white font-semibold text-lg">Danh mục</h4>
             <ul className="space-y-3">
-              {categories.map(({ name, icon: Icon }) => (
-                <li key={name}>
+              {categories.map(({ id, name, icon: Icon }) => (
+                <li key={id}>
                   <a
-                    href="#"
+                    href={`#${id}`}
+                    onClick={(e) => scrollToCategory(id, e)}
                     className="flex items-center gap-2 hover:text-red-500 transition-colors text-sm"
                   >
                     <Icon className="w-4 h-4" />

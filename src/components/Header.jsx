@@ -14,7 +14,7 @@ import {
   User,
 } from "lucide-react";
 import { UserMenu } from "./UserMenu";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function Header({
   cartCount,
@@ -28,13 +28,85 @@ export function Header({
   const [searchQuery, setSearchQuery] = useState("");
 
   const categories = [
-    { name: "Laptop", icon: Laptop },
-    { name: "Điện thoại", icon: Smartphone },
-    { name: "Tablet", icon: Tablet },
-    { name: "Âm thanh", icon: Speaker },
-    { name: "Phụ kiện", icon: Cable },
-    { name: "Màn hình", icon: Monitor },
+    { id: "laptop", name: "Laptop", icon: Laptop },
+    { id: "phone", name: "Điện thoại", icon: Smartphone },
+    { id: "tablet", name: "Tablet", icon: Tablet },
+    { id: "audio", name: "Âm thanh", icon: Speaker },
+    { id: "accessories", name: "Phụ kiện", icon: Cable },
+    { id: "monitor", name: "Màn hình", icon: Monitor },
   ];
+
+  const scrollToCategory = (id) => {
+    try {
+      const el = document.getElementById(id);
+      setActiveCategory?.(id);
+      if (el) {
+        const headerEl = document.querySelector("header");
+        const headerHeight = headerEl
+          ? headerEl.getBoundingClientRect().height
+          : 0;
+        const top =
+          el.getBoundingClientRect().top +
+          window.pageYOffset -
+          headerHeight -
+          12;
+        window.scrollTo({ top, behavior: "smooth" });
+        return;
+      }
+      // If target not found, navigate to products page with hash
+      if (window.location.pathname !== "/products") {
+        // set full URL so browser loads the products page at that hash
+        window.location.href = `/products#${id}`;
+      } else {
+        // same page but element not present yet; set hash so ProductsPage can detect
+        window.location.hash = `#${id}`;
+      }
+    } catch (e) {
+      // ignore errors
+    }
+  };
+
+  // Active category for styling in header
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  // Update active category from hash when the location changes
+  useEffect(() => {
+    const setFromHash = () => {
+      const hash = (window.location.hash || "").replace("#", "");
+      if (hash) setActiveCategory(hash);
+    };
+    setFromHash();
+    window.addEventListener("hashchange", setFromHash);
+    return () => window.removeEventListener("hashchange", setFromHash);
+  }, []);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef(null);
+  const menuRef = useRef(null);
+
+  // close menu on outside click or Escape
+  useEffect(() => {
+    const onDocClick = (e) => {
+      if (!menuOpen) return;
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(e.target)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+    const onEsc = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("click", onDocClick);
+    document.addEventListener("keydown", onEsc);
+    return () => {
+      document.removeEventListener("click", onDocClick);
+      document.removeEventListener("keydown", onEsc);
+    };
+  }, [menuOpen]);
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -132,32 +204,90 @@ export function Header({
       <div className="bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <nav className="flex items-center gap-1">
-            <button className="flex items-center gap-2 px-5 py-3 bg-red-600 text-white font-semibold hover:bg-red-700 transition-colors">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-              <span>Danh mục</span>
-            </button>
-            {categories.map(({ name, icon: Icon }) => (
+            <div className="relative">
               <button
-                key={name}
-                className="flex items-center gap-2 px-4 py-3 hover:bg-gray-100 transition-colors text-gray-700 font-medium"
+                ref={menuButtonRef}
+                onClick={() => setMenuOpen((s) => !s)}
+                className={`flex items-center gap-2 px-5 py-3 font-semibold transition-colors rounded-md ${
+                  menuOpen
+                    ? "bg-white border-2 border-red-500 text-red-600"
+                    : "bg-red-600 text-white hover:bg-red-700"
+                }`}
+                aria-expanded={menuOpen}
+                aria-haspopup="true"
               >
-                <Icon className="w-4 h-4" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+                <span>Danh mục</span>
+              </button>
+
+              {menuOpen && (
+                <div
+                  ref={menuRef}
+                  className="absolute left-0 mt-2 w-64 bg-white border rounded-lg shadow-lg z-50 p-3 grid grid-cols-1 gap-2"
+                >
+                  {categories.map(({ id, name, icon: Icon }) => (
+                    <button
+                      key={`menu-${id}`}
+                      onClick={() => {
+                        setActiveCategory(id);
+                        scrollToCategory(id);
+                        setMenuOpen(false);
+                      }}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-md text-left text-sm w-full ${
+                        activeCategory === id
+                          ? "bg-red-50 text-red-600"
+                          : "hover:bg-gray-50 text-gray-700"
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span>{name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            {categories.map(({ id, name, icon: Icon }) => (
+              <button
+                key={id}
+                onClick={() => {
+                  setActiveCategory(id);
+                  scrollToCategory(id);
+                }}
+                className={`flex items-center gap-2 px-4 py-3 transition-colors font-medium ${
+                  activeCategory === id
+                    ? "bg-red-600 text-white"
+                    : "hover:bg-gray-100 text-gray-700"
+                }`}
+              >
+                <Icon
+                  className={`w-4 h-4 ${activeCategory === id ? "text-white" : ""}`}
+                />
                 <span>{name}</span>
               </button>
             ))}
-            <button className="ml-auto flex items-center gap-2 px-4 py-3 text-red-600 font-bold hover:bg-red-50 transition-colors">
+            <button
+              onClick={() => {
+                setActiveCategory("flash-sale");
+                scrollToCategory("flash-sale");
+              }}
+              className={`ml-auto flex items-center gap-2 px-4 py-3 font-bold transition-colors ${
+                activeCategory === "flash-sale"
+                  ? "bg-white border-2 border-red-500 text-red-600 rounded-md"
+                  : "text-red-600 hover:bg-red-50"
+              }`}
+            >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fillRule="evenodd"

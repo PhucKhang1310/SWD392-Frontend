@@ -344,6 +344,92 @@ export const getAllProducts = () => {
       stock: 150,
       description: "SSD di động chống sốc, chống nước",
     },
+    // Tablet products
+    {
+      id: "tablet-1",
+      name: 'iPad Pro 11" 2024 - M4 8GB/128GB',
+      price: 21990000,
+      originalPrice: 24990000,
+      image:
+        "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=300&fit=crop",
+      category: "tablet",
+      rating: 5,
+      reviews: 312,
+      discount: 10,
+      stock: 80,
+      description: "iPad Pro mạnh mẽ, màn hình Liquid Retina XDR",
+    },
+    {
+      id: "tablet-2",
+      name: "Samsung Galaxy Tab S9 128GB",
+      price: 16990000,
+      originalPrice: 19990000,
+      image:
+        "https://images.unsplash.com/photo-1580910051071-6e9b0f9b9f1b?w=400&h=300&fit=crop",
+      category: "tablet",
+      rating: 4.8,
+      reviews: 198,
+      discount: 12,
+      stock: 60,
+      description: "Galaxy Tab S9 màn hình AMOLED, bút S Pen",
+    },
+    {
+      id: "tablet-3",
+      name: "Lenovo Tab P12 Pro 256GB",
+      price: 12990000,
+      originalPrice: 14990000,
+      image:
+        "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=300&fit=crop",
+      category: "tablet",
+      rating: 4.6,
+      reviews: 87,
+      discount: 15,
+      stock: 40,
+      description: "Tablet Android màn hình lớn, pin lâu",
+    },
+    // Monitor products
+    {
+      id: "monitor-1",
+      name: 'Dell UltraSharp 27" U2723QE',
+      price: 11990000,
+      originalPrice: 13990000,
+      image:
+        "https://images.unsplash.com/photo-1606851091634-1b4a7f5e6f1a?w=400&h=300&fit=crop",
+      category: "monitor",
+      rating: 4.8,
+      reviews: 142,
+      discount: 14,
+      stock: 45,
+      description: "Màn hình 27'' 4K IPS cho công việc chuyên nghiệp",
+    },
+    {
+      id: "monitor-2",
+      name: 'LG UltraGear 32GN650-B 32"',
+      price: 8990000,
+      originalPrice: 10990000,
+      image:
+        "https://images.unsplash.com/photo-1587202372775-6d1c9f6f6f2d?w=400&h=300&fit=crop",
+      category: "monitor",
+      rating: 4.7,
+      reviews: 98,
+      discount: 18,
+      stock: 30,
+      description: "Màn hình gaming 32'' 165Hz, FreeSync",
+    },
+    {
+      id: "monitor-3",
+      name: 'Samsung Odyssey G7 27"',
+      price: 12990000,
+      originalPrice: 14990000,
+      image:
+        "https://images.unsplash.com/photo-1602526216858-1b1f8d3b2c3e?w=400&h=300&fit=crop",
+      category: "monitor",
+      rating: 4.9,
+      reviews: 76,
+      discount: 13,
+      stock: 25,
+      description: "Màn hình cong 1000R, 240Hz cho trải nghiệm chơi game đỉnh",
+    },
   ];
 };
 

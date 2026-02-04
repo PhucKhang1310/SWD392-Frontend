@@ -37,10 +37,9 @@ export function AdminLayout({
             </div>
             <button
               onClick={onClose}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors font-semibold"
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600 rounded-full shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 ring-0 focus:outline-none focus:ring-2 focus:ring-red-300 font-semibold"
             >
-              <X className="w-5 h-5" />
-              <span>Về Shop</span>
+              <span className="select-none">Shop</span>
             </button>
           </div>
         </div>

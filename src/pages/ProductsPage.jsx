@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProductGrid } from "../components/ProductGrid";
 import { Search } from "lucide-react";
 
@@ -9,6 +9,8 @@ export function ProductsPage({ products, onAddToCart, onProductClick }) {
   const categories = [
     { id: "all", name: "Tất cả sản phẩm" },
     { id: "laptop", name: "Laptop" },
+    { id: "tablet", name: "Tablet" },
+    { id: "monitor", name: "Màn hình" },
     { id: "phone", name: "Điện thoại" },
     { id: "audio", name: "Âm thanh" },
     { id: "accessories", name: "Phụ kiện" },
@@ -22,6 +24,25 @@ export function ProductsPage({ products, onAddToCart, onProductClick }) {
       .includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  // If navigated with a hash (e.g. /products#laptop), scroll to that section with header offset
+  useEffect(() => {
+    try {
+      const hash = (window.location.hash || "").replace("#", "");
+      if (!hash) return;
+      const el = document.getElementById(hash);
+      if (!el) return;
+      const headerEl = document.querySelector("header");
+      const headerHeight = headerEl
+        ? headerEl.getBoundingClientRect().height
+        : 0;
+      const top =
+        el.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+      window.scrollTo({ top, behavior: "smooth" });
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -62,6 +83,18 @@ export function ProductsPage({ products, onAddToCart, onProductClick }) {
       </div>
 
       {/* Products Grid */}
+      {/* Category anchors for in-page navigation */}
+      {categories
+        .filter((c) => c.id !== "all")
+        .map((c) => (
+          <div
+            id={c.id}
+            key={c.id}
+            className="pt-20 -mt-20"
+            aria-hidden="true"
+          />
+        ))}
+
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (
