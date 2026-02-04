@@ -1,13 +1,25 @@
 import { useState, useEffect } from "react";
 import { ProductGrid } from "../components/ProductGrid";
-import { Search } from "lucide-react";
+import { Search, ArrowLeft } from "lucide-react";
 
-export function ProductsPage({ products, onAddToCart, onProductClick }) {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+export function ProductsPage({
+  products,
+  onAddToCart,
+  onProductClick,
+  initialCategory = "all",
+  onBack,
+}) {
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Update selectedCategory when initialCategory changes
+  useEffect(() => {
+    setSelectedCategory(initialCategory);
+  }, [initialCategory]);
 
   const categories = [
     { id: "all", name: "Tất cả sản phẩm" },
+    { id: "flash-sale", name: "Flash Sale" },
     { id: "laptop", name: "Laptop" },
     { id: "tablet", name: "Tablet" },
     { id: "monitor", name: "Màn hình" },
@@ -18,7 +30,11 @@ export function ProductsPage({ products, onAddToCart, onProductClick }) {
 
   const filteredProducts = products.filter((product) => {
     const matchesCategory =
-      selectedCategory === "all" || product.category === selectedCategory;
+      selectedCategory === "all" ||
+      (selectedCategory === "flash-sale" &&
+        product.discount &&
+        product.discount >= 10) ||
+      product.category === selectedCategory;
     const matchesSearch = product.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
@@ -48,9 +64,20 @@ export function ProductsPage({ products, onAddToCart, onProductClick }) {
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          Danh sách sản phẩm
-        </h1>
+        <div className="flex items-center gap-4 mb-4">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="flex items-center gap-2 text-gray-600 hover:text-red-600 transition-colors"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span className="font-semibold">Quay lại</span>
+            </button>
+          )}
+          <h1 className="text-3xl font-bold text-gray-900">
+            Danh sách sản phẩm
+          </h1>
+        </div>
 
         {/* Search */}
         <div className="relative mb-6">
@@ -65,7 +92,8 @@ export function ProductsPage({ products, onAddToCart, onProductClick }) {
         </div>
 
         {/* Categories */}
-        <div className="flex flex-wrap gap-2">
+        {/* Đã ẩn vì sử dụng thanh navigation ở header */}
+        {/* <div className="flex flex-wrap gap-2">
           {categories.map((category) => (
             <button
               key={category.id}
@@ -79,7 +107,7 @@ export function ProductsPage({ products, onAddToCart, onProductClick }) {
               {category.name}
             </button>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Products Grid */}

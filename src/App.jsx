@@ -14,6 +14,7 @@ import { AdminLoginPrompt } from "./components/AdminLoginPrompt";
 import { CheckoutModal } from "./components/CheckoutModal";
 import { OrderHistory } from "./components/OrderHistory";
 import { ChatBox, ChatButton } from "./components/ChatBox";
+import { ProductsPage } from "./pages/ProductsPage";
 import { getAllProducts } from "./utils/productData";
 
 export default function App() {
@@ -28,6 +29,8 @@ export default function App() {
   const [orderHistoryOpen, setOrderHistoryOpen] = useState(false);
   const [showTestAccounts, setShowTestAccounts] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+  const [showProductsPage, setShowProductsPage] = useState(false);
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState("all");
   const [orders, setOrders] = useState(() => {
     // Initialize orders from localStorage
     const savedOrders = localStorage.getItem("orders");
@@ -193,6 +196,18 @@ export default function App() {
     setCart([]); // Clear cart after successful order
   };
 
+  const handleViewAllCategory = (category) => {
+    setSelectedCategoryFilter(category);
+    setShowProductsPage(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleBackToHome = () => {
+    setShowProductsPage(false);
+    setSelectedCategoryFilter("all");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const userOrders = user
     ? orders.filter((order) => order.email === user.email)
     : [];
@@ -242,60 +257,80 @@ export default function App() {
         onLogout={handleLogout}
         onSwitchToAdmin={() => setViewMode("admin")}
         onViewProfile={() => setProfileOpen(true)}
+        onNavigateToCategory={handleViewAllCategory}
+        activeCategory={selectedCategoryFilter}
       />
 
       <main>
-        <HeroBanner />
-        <FlashSale
-          onAddToCart={addToCart}
-          onProductClick={setSelectedProduct}
-          products={products}
-        />
+        {showProductsPage ? (
+          <ProductsPage
+            products={products}
+            onAddToCart={addToCart}
+            onProductClick={setSelectedProduct}
+            initialCategory={selectedCategoryFilter}
+            onBack={handleBackToHome}
+          />
+        ) : (
+          <>
+            <HeroBanner />
+            <FlashSale
+              onAddToCart={addToCart}
+              onProductClick={setSelectedProduct}
+              products={products}
+            />
 
-        <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
-          <ProductGrid
-            title="Laptop - Máy Tính"
-            category="laptop"
-            onAddToCart={addToCart}
-            onProductClick={setSelectedProduct}
-            products={products}
-          />
-          <ProductGrid
-            title="Tablet - Máy Tính Bảng"
-            category="tablet"
-            onAddToCart={addToCart}
-            onProductClick={setSelectedProduct}
-            products={products}
-          />
-          <ProductGrid
-            title="Màn Hình - Monitor"
-            category="monitor"
-            onAddToCart={addToCart}
-            onProductClick={setSelectedProduct}
-            products={products}
-          />
-          <ProductGrid
-            title="Điện Thoại - Smartphone"
-            category="phone"
-            onAddToCart={addToCart}
-            onProductClick={setSelectedProduct}
-            products={products}
-          />
-          <ProductGrid
-            title="Âm Thanh - Tai Nghe"
-            category="audio"
-            onAddToCart={addToCart}
-            onProductClick={setSelectedProduct}
-            products={products}
-          />
-          <ProductGrid
-            title="Phụ Kiện - Accessories"
-            category="accessories"
-            onAddToCart={addToCart}
-            onProductClick={setSelectedProduct}
-            products={products}
-          />
-        </div>
+            <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
+              <ProductGrid
+                title="Laptop - Máy Tính"
+                category="laptop"
+                onAddToCart={addToCart}
+                onProductClick={setSelectedProduct}
+                products={products}
+                onViewAll={handleViewAllCategory}
+              />
+              <ProductGrid
+                title="Tablet - Máy Tính Bảng"
+                category="tablet"
+                onAddToCart={addToCart}
+                onProductClick={setSelectedProduct}
+                products={products}
+                onViewAll={handleViewAllCategory}
+              />
+              <ProductGrid
+                title="Màn Hình - Monitor"
+                category="monitor"
+                onAddToCart={addToCart}
+                onProductClick={setSelectedProduct}
+                products={products}
+                onViewAll={handleViewAllCategory}
+              />
+              <ProductGrid
+                title="Điện Thoại - Smartphone"
+                category="phone"
+                onAddToCart={addToCart}
+                onProductClick={setSelectedProduct}
+                products={products}
+                onViewAll={handleViewAllCategory}
+              />
+              <ProductGrid
+                title="Âm Thanh - Tai Nghe"
+                category="audio"
+                onAddToCart={addToCart}
+                onProductClick={setSelectedProduct}
+                products={products}
+                onViewAll={handleViewAllCategory}
+              />
+              <ProductGrid
+                title="Phụ Kiện - Accessories"
+                category="accessories"
+                onAddToCart={addToCart}
+                onProductClick={setSelectedProduct}
+                products={products}
+                onViewAll={handleViewAllCategory}
+              />
+            </div>
+          </>
+        )}
       </main>
 
       <Footer />
