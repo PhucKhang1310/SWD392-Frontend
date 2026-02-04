@@ -24,6 +24,8 @@ export function Header({
   onLogout,
   onSwitchToAdmin,
   onViewProfile,
+  onNavigateToCategory,
+  activeCategory,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -36,49 +38,26 @@ export function Header({
     { id: "monitor", name: "Màn hình", icon: Monitor },
   ];
 
-  const scrollToCategory = (id) => {
-    try {
-      const el = document.getElementById(id);
-      setActiveCategory?.(id);
-      if (el) {
-        const headerEl = document.querySelector("header");
-        const headerHeight = headerEl
-          ? headerEl.getBoundingClientRect().height
-          : 0;
-        const top =
-          el.getBoundingClientRect().top +
-          window.pageYOffset -
-          headerHeight -
-          12;
-        window.scrollTo({ top, behavior: "smooth" });
-        return;
-      }
-      // If target not found, navigate to products page with hash
-      if (window.location.pathname !== "/products") {
-        // set full URL so browser loads the products page at that hash
-        window.location.href = `/products#${id}`;
-      } else {
-        // same page but element not present yet; set hash so ProductsPage can detect
-        window.location.hash = `#${id}`;
-      }
-    } catch (e) {
-      // ignore errors
+  const handleCategoryClick = (id) => {
+    if (onNavigateToCategory) {
+      onNavigateToCategory(id);
     }
   };
 
-  // Active category for styling in header
-  const [activeCategory, setActiveCategory] = useState(null);
+  // Active category for styling in header - removed local state, using prop instead
+  // const [activeCategory, setActiveCategory] = useState(null);
 
   // Update active category from hash when the location changes
-  useEffect(() => {
-    const setFromHash = () => {
-      const hash = (window.location.hash || "").replace("#", "");
-      if (hash) setActiveCategory(hash);
-    };
-    setFromHash();
-    window.addEventListener("hashchange", setFromHash);
-    return () => window.removeEventListener("hashchange", setFromHash);
-  }, []);
+  // Removed because we're using prop now
+  // useEffect(() => {
+  //   const setFromHash = () => {
+  //     const hash = (window.location.hash || "").replace("#", "");
+  //     if (hash) setActiveCategory(hash);
+  //   };
+  //   setFromHash();
+  //   window.addEventListener("hashchange", setFromHash);
+  //   return () => window.removeEventListener("hashchange", setFromHash);
+  // }, []);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButtonRef = useRef(null);
@@ -241,8 +220,7 @@ export function Header({
                     <button
                       key={`menu-${id}`}
                       onClick={() => {
-                        setActiveCategory(id);
-                        scrollToCategory(id);
+                        handleCategoryClick(id);
                         setMenuOpen(false);
                       }}
                       className={`flex items-center gap-2 px-3 py-2 rounded-md text-left text-sm w-full ${
@@ -261,10 +239,7 @@ export function Header({
             {categories.map(({ id, name, icon: Icon }) => (
               <button
                 key={id}
-                onClick={() => {
-                  setActiveCategory(id);
-                  scrollToCategory(id);
-                }}
+                onClick={() => handleCategoryClick(id)}
                 className={`flex items-center gap-2 px-4 py-3 transition-colors font-medium ${
                   activeCategory === id
                     ? "bg-red-600 text-white"
@@ -278,10 +253,7 @@ export function Header({
               </button>
             ))}
             <button
-              onClick={() => {
-                setActiveCategory("flash-sale");
-                scrollToCategory("flash-sale");
-              }}
+              onClick={() => handleCategoryClick("flash-sale")}
               className={`ml-auto flex items-center gap-2 px-4 py-3 font-bold transition-colors ${
                 activeCategory === "flash-sale"
                   ? "bg-white border-2 border-red-500 text-red-600 rounded-md"
