@@ -45,7 +45,15 @@ export default function App() {
     const savedProducts = localStorage.getItem("products");
     if (savedProducts) {
       try {
-        return JSON.parse(savedProducts);
+        const parsed = JSON.parse(savedProducts);
+        // Merge parsed saved products with defaults so newly added default products (like tablets)
+        // are included even if the user has an older saved list in localStorage.
+        const defaults = getAllProducts();
+        const map = new Map();
+        // start with defaults then override with saved values
+        defaults.forEach((p) => map.set(p.id, p));
+        parsed.forEach((p) => map.set(p.id, p));
+        return Array.from(map.values());
       } catch (e) {
         console.error("Failed to parse products data");
       }
@@ -248,6 +256,20 @@ export default function App() {
           <ProductGrid
             title="Laptop - Máy Tính"
             category="laptop"
+            onAddToCart={addToCart}
+            onProductClick={setSelectedProduct}
+            products={products}
+          />
+          <ProductGrid
+            title="Tablet - Máy Tính Bảng"
+            category="tablet"
+            onAddToCart={addToCart}
+            onProductClick={setSelectedProduct}
+            products={products}
+          />
+          <ProductGrid
+            title="Màn Hình - Monitor"
+            category="monitor"
             onAddToCart={addToCart}
             onProductClick={setSelectedProduct}
             products={products}

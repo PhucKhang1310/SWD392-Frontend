@@ -45,7 +45,10 @@ export function FlashSale({ onAddToCart, onProductClick, products }) {
   const formatTime = (value) => String(value).padStart(2, "0");
 
   return (
-    <section className="bg-gradient-to-br from-red-50 to-orange-50 py-8">
+    <section
+      id="flash-sale"
+      className="bg-gradient-to-br from-red-50 to-orange-50 py-8"
+    >
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
